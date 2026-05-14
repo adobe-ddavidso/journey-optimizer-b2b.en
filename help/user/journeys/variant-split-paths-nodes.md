@@ -145,6 +145,18 @@ _**How a variant split by people node works**_
 * The same quota-based algorithm applies — path assignment is not deterministic and the same person may follow a different path on re-entry.
 * Only _[!UICONTROL Take an action]_ nodes for people are supported within the paths. The paths cannot be split further.
 
+_**Distribution behavior across people**_
+
+People within an account are processed as a batch. The number assigned to each path is calculated as `floor(percentage / 100 × people_in_account)`, and the **last configured path receives all remaining people**. This means:
+
+* When an account has an odd number of people, the last path receives one more person than earlier paths.
+* For accounts with a single person, that person is always assigned to the first path regardless of configured percentages.
+* For accounts with very few people (fewer than 10), the per-account distribution may differ noticeably from the configured percentages. Distribution converges toward the configured ratios when measured across many accounts.
+
+>[!NOTE]
+>
+>This rounding behavior applies per account batch, not across all accounts in the journey. The last path will systematically receive slightly more people than configured when account sizes are odd. This is expected behavior.
+
 ### Add a variant split by people node
 
 1. Navigate to the journey map.
